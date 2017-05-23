@@ -1,5 +1,21 @@
 # circle.yml
+machine:
+  environment:
+    LLVM_SRC: "$HOME/llvm"
+    PATH: "$HOME/cmake-3.7.2-Linux-x86_64/bin:$PATH"
+
+dependencies:
+  cache_directories:
+    - $HOME/cmake-3.7.2-Linux-x86_64
+  override:
+    - >
+      if [ ! -d $HOME/cmake-3.7.2-Linux-x86_64 ]; then
+        echo "No cache - building CMake"
+        cd $HOME && wget --quiet https://cmake.org/files/v3.7/cmake-3.7.2-Linux-x86_64.tar.gz && tar -xvf cmake-3.7.2-Linux-x86_64.tar.gz
+      else
+        echo "Cached CMake found"
+      fi
 
 test:
   override:
-    - cmake --build .
+    - cmake --build LLVM_SRC
