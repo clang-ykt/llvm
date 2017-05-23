@@ -18,4 +18,4 @@ dependencies:
 
 test:
   override:
-    - cmake --build LLVM_SRC
+    - cmake --build $LLVM_SRC
