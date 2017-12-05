@@ -3846,7 +3846,7 @@ def int_nvvm_vote_uni :
 // vote.ballot pred
 def int_nvvm_vote_ballot :
   Intrinsic<[llvm_i32_ty], [llvm_i1_ty],
-            [IntrNoMem, IntrConvergent], "llvm.nvvm.vote.ballot">,
+            [IntrConvergent], "llvm.nvvm.vote.ballot">,
   GCCBuiltin<"__nvvm_vote_ballot">;
 
 //
