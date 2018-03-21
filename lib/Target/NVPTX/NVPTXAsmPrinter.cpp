@@ -62,8 +62,14 @@ InterleaveSrc("nvptx-emit-src", cl::ZeroOrMore, cl::Hidden,
               cl::desc("NVPTX Specific: Emit source line in ptx file"),
               cl::init(false));
 
-cl::opt<bool> NaNsInject("nans-inject", cl::desc("Inject signalling NaNs"),
-                         cl::init(false));
+static cl::opt<bool> NaNsInject("nans-inject",
+                                cl::desc("Inject signalling NaNs"),
+                                cl::init(false));
+
+static cl::opt<bool>
+    NoCudaDebug("no-cuda-debug",
+                cl::desc("Do not mark ptx file as having debug info"),
+                cl::init(false));
 
 namespace {
 /// DiscoverDependentGlobals - Return a set of GlobalVariables on which \p V
@@ -841,7 +847,7 @@ void NVPTXAsmPrinter::emitHeader(Module &M, raw_ostream &O,
       O << ", map_f64_to_f32";
   }
 
-  if (MMI && MMI->hasDebugInfo())
+  if (MMI && MMI->hasDebugInfo() && !NoCudaDebug)
     O << ", debug";
 
   O << "\n";
